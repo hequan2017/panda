@@ -16,3 +16,33 @@ export const AccountLoginInfo = token => {
     method: 'post'
   })
 }
+
+export const TestGetList = parameter => {
+  return request({
+    url: `/system/test?${parameter}`,
+    method: 'get'
+  })
+}
+
+export const TestCreate = data => {
+  return request({
+    url: '/system/test',
+    data: data,
+    method: 'post'
+  })
+}
+
+export const TestUpdate = (id, data) => {
+  return request({
+    url: `/system/test/${id}`,
+    data: data,
+    method: 'PUT'
+  })
+}
+
+export const TestDelete = id => {
+  return request({
+    url: `/system/test/${id}`,
+    method: 'delete'
+  })
+}

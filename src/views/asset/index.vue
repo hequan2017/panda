@@ -16,13 +16,16 @@
       @row-edit="handleRowEdit"
       @row-remove="handleRowRemove"
       :pagination="pagination"
-      @dialog-cancel="handleDialogCancel">
+      @dialog-cancel="handleDialogCancel"
+       @pagination-current-change="paginationCurrentChange" >
       <el-button slot="header" style="margin-bottom: 5px" @click="addRow">新增</el-button>
     </d2-crud>
   </d2-container>
 </template>
 
 <script>
+
+import { TestGetList, TestCreate, TestUpdate, TestDelete} from '@api/sys.login'
 export default {
   data () {
     return {
@@ -41,42 +44,6 @@ export default {
         }
       ],
       data: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄',
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄',
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄',
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true
-        }
       ],
       addTemplate: {
         date: {
@@ -99,8 +66,8 @@ export default {
       },
       pagination: {
         currentPage: 1,
-        pageSize: 2,
-        total: 1000
+        pageSize: 10,
+        total: 0
       },
       addRules: {
         date: [ { required: true, message: '请输入日期', trigger: 'blur' } ],
@@ -114,15 +81,9 @@ export default {
           text: '编辑',
           size: 'small',
           show (index, row) {
-            if (row.showEditButton) {
-              return true
-            }
-            return false
+            return true
           },
           disabled (index, row) {
-            if (row.forbidEdit) {
-              return true
-            }
             return false
           }
         },
@@ -132,15 +93,9 @@ export default {
           fixed: 'right',
           confirm: true,
           show (index, row) {
-            if (row.showRemoveButton) {
-              return true
-            }
-            return false
+            return true
           },
           disabled (index, row) {
-            if (row.forbidRemove) {
-              return true
-            }
             return false
           }
         }
@@ -175,12 +130,29 @@ export default {
       }
     }
   },
+  created () {
+    this.test_get_list()
+  },
   methods: {
-    handleDialogOpen ({ mode }) {
-      this.$message({
-        message: '打开模态框，模式为：' + mode,
-        type: 'success'
+    test_get_list (parameter) {
+      TestGetList(parameter).then(res => {
+        console.log(res)
+        this.data = res.results
+        this.pagination.total = res.count
+      }).catch(err => {
+        console.log(`获取信息错误 ${err}`)
       })
+    },
+    paginationCurrentChange (currentPage) {
+      TestGetList(`page=${currentPage}`).then(res => {
+        console.log(res)
+        this.data = res.results
+        this.pagination.total = res.count
+      }).catch(err => {
+        console.log(`获取信息错误 ${err}`)
+      })
+      this.pagination.currentPage = currentPage
+      this.fetchData()
     },
     addRow () {
       this.$refs.d2Crud.showDialog({
@@ -189,16 +161,19 @@ export default {
     },
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
+      TestCreate(row).then(res => {
+        
+      }).catch(err => {
+        console.log(err)
+      })
       setTimeout(() => {
-        console.log(row)
         this.$message({
           message: '保存成功',
           type: 'success'
         })
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
+        done()
         this.formOptions.saveLoading = false
+        this.test_get_list()
       }, 300)
     },
     handleDialogCancel (done) {
@@ -210,21 +185,29 @@ export default {
     },
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
+      this.addTemplate.data = row.data
+      this.addTemplate.name = row.name
+      this.addTemplate.address = row.address
+      TestUpdate(row.id, row).then(res => {
+        this.test_get_list()
+      }).catch(err => {
+        console.log(err)
+      })
       setTimeout(() => {
-        console.log(index)
-        console.log(row)
         this.$message({
           message: '编辑成功',
           type: 'success'
         })
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
+        done()
         this.formOptions.saveLoading = false
       }, 300)
     },
     handleRowRemove ({ index, row }, done) {
+      TestDelete(row.id).then(res => {
+        this.test_get_list()
+      }).catch(err => {
+        console.log(err)
+      })
       setTimeout(() => {
         console.log(index)
         console.log(row)
