@@ -1,5 +1,8 @@
 // Vue
 import Vue from 'vue'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import D2Crud from '@d2-projects/d2-crud'
 import i18n from './i18n'
 import App from './App'
 // 核心插件
@@ -15,6 +18,8 @@ import { frameInRoutes } from '@/router/routes'
 
 // 核心插件
 Vue.use(d2Admin)
+Vue.use(ElementUI)
+Vue.use(D2Crud, { size: 'small' })
 
 new Vue({
   router,

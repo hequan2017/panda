@@ -23,32 +23,32 @@ const frameIn = [
       },
       // 演示页面
       {
-        path: 'page1',
-        name: 'page1',
+        path: 'asset',
+        name: 'asset',
         meta: {
-          title: '页面 1',
+          title: '资产',
           auth: true
         },
-        component: _import('demo/page1')
+        component: _import('asset/index')
       },
-      {
-        path: 'page2',
-        name: 'page2',
-        meta: {
-          title: '页面 2',
-          auth: true
-        },
-        component: _import('demo/page2')
-      },
-      {
-        path: 'page3',
-        name: 'page3',
-        meta: {
-          title: '页面 3',
-          auth: true
-        },
-        component: _import('demo/page3')
-      },
+      // {
+      //   path: 'page2',
+      //   name: 'page2',
+      //   meta: {
+      //     title: '页面 2',
+      //     auth: true
+      //   },
+      //   component: _import('demo/page2')
+      // },
+      // {
+      //   path: 'page3',
+      //   name: 'page3',
+      //   meta: {
+      //     title: '页面 3',
+      //     auth: true
+      //   },
+      //   component: _import('demo/page3')
+      // },
       // 系统 前端日志
       {
         path: 'log',
@@ -104,8 +104,4 @@ const errorPage = [
 export const frameInRoutes = frameIn
 
 // 重新组织后导出
-export default [
-  ...frameIn,
-  ...frameOut,
-  ...errorPage
-]
+export default [...frameIn, ...frameOut, ...errorPage]

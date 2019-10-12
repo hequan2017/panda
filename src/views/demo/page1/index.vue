@@ -1,6 +1,6 @@
 <template>
   <d2-container>
-    <template slot="header">Page 1 header</template>
+    <template slot="header">资产</template>
     Hello World
   </d2-container>
 </template>
