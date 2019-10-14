@@ -38,7 +38,10 @@ export default {
                   dispatch(
                     'd2admin/user/set',
                     {
-                      name: resinfo.name
+                      name: resinfo.name,
+                      id: resinfo.user_id,
+                      access: resinfo.access,
+                      avatar: resinfo.avatar
                     },
                     { root: true }
                   )

@@ -1,6 +1,9 @@
 <template>
   <d2-container>
     <template slot="header">资产管理</template>
+<el-input v-model="input" placeholder="请输入姓名"  style="width:200px;"   prefix-icon="el-icon-search" clearable></el-input>&nbsp;
+<el-button type="primary" icon="el-icon-search"  @click="search"  >搜索</el-button>
+<br /><br />
     <d2-crud
       ref="d2Crud"
       :columns="columns"
@@ -25,7 +28,7 @@
 
 <script>
 
-import { TestGetList, TestCreate, TestUpdate, TestDelete} from '@api/sys.login'
+import { TestGetList, TestCreate, TestUpdate, TestDelete } from '@api/sys.login'
 export default {
   data () {
     return {
@@ -45,6 +48,7 @@ export default {
       ],
       data: [
       ],
+      input: '',
       addTemplate: {
         date: {
           title: '日期',
@@ -143,6 +147,7 @@ export default {
         console.log(`获取信息错误 ${err}`)
       })
     },
+
     paginationCurrentChange (currentPage) {
       TestGetList(`page=${currentPage}`).then(res => {
         console.log(res)
@@ -159,10 +164,12 @@ export default {
         mode: 'add'
       })
     },
+    search () {
+      this.test_get_list(`name=${this.input}`)
+    },
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
       TestCreate(row).then(res => {
-        
       }).catch(err => {
         console.log(err)
       })
@@ -189,7 +196,6 @@ export default {
       this.addTemplate.name = row.name
       this.addTemplate.address = row.address
       TestUpdate(row.id, row).then(res => {
-        this.test_get_list()
       }).catch(err => {
         console.log(err)
       })
@@ -200,11 +206,11 @@ export default {
         })
         done()
         this.formOptions.saveLoading = false
+        this.test_get_list()
       }, 300)
     },
     handleRowRemove ({ index, row }, done) {
       TestDelete(row.id).then(res => {
-        this.test_get_list()
       }).catch(err => {
         console.log(err)
       })
@@ -216,6 +222,7 @@ export default {
           type: 'success'
         })
         done()
+        this.test_get_list()
       }, 300)
     }
   }

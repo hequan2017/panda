@@ -15,12 +15,16 @@ export default {
         // store 赋值
         state.info = info
         // 持久化
-        await dispatch('d2admin/db/set', {
-          dbName: 'sys',
-          path: 'user.info',
-          value: info,
-          user: true
-        }, { root: true })
+        await dispatch(
+          'd2admin/db/set',
+          {
+            dbName: 'sys',
+            path: 'user.info',
+            value: info,
+            user: true
+          },
+          { root: true }
+        )
         // end
         resolve()
       })
@@ -32,12 +36,16 @@ export default {
     load ({ state, dispatch }) {
       return new Promise(async resolve => {
         // store 赋值
-        state.info = await dispatch('d2admin/db/get', {
-          dbName: 'sys',
-          path: 'user.info',
-          defaultValue: {},
-          user: true
-        }, { root: true })
+        state.info = await dispatch(
+          'd2admin/db/get',
+          {
+            dbName: 'sys',
+            path: 'user.info',
+            defaultValue: {},
+            user: true
+          },
+          { root: true }
+        )
         // end
         resolve()
       })
