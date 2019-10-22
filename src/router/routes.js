@@ -26,7 +26,7 @@ const frameIn = [
         path: 'asset',
         name: 'asset',
         meta: {
-          title: '资产',
+          title: '演示页面',
           auth: true
         },
         component: _import('asset/index')

@@ -2,14 +2,14 @@ import request from '@/plugin/axios'
 
 export function AccountLogin (data) {
   return request({
-    url: '/api/token',
+    url: '/token',
     method: 'post',
     data
   })
 }
 export const AccountLoginInfo = token => {
   return request({
-    url: '/system/api/user_info',
+    url: '/system/user_info',
     data: {
       token
     },
@@ -29,6 +29,13 @@ export const TestCreate = data => {
     url: '/system/test',
     data: data,
     method: 'post'
+  })
+}
+
+export const TestGetInfo = id => {
+  return request({
+    url: `/system/test/${id}`,
+    method: 'get'
   })
 }
 

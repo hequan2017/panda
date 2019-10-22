@@ -1,34 +1,42 @@
 <template>
   <d2-container>
-    <template slot="header">资产管理</template>
-<el-input v-model="input" placeholder="请输入姓名"  style="width:200px;"   prefix-icon="el-icon-search" clearable></el-input>&nbsp;
-<el-button type="primary" icon="el-icon-search"  @click="search"  >搜索</el-button>
-<br /><br />
-    <d2-crud
-      ref="d2Crud"
-      :columns="columns"
-      :data="data"
-      add-title="资产管理"
-      :add-template="addTemplate"
-      :form-options="formOptions"
-      :add-rules="addRules"
-      :edit-rules="addRules"
-      :edit-template="editTemplate"
-      :rowHandle="rowHandle"
-      @row-add="handleRowAdd"
-      @row-edit="handleRowEdit"
-      @row-remove="handleRowRemove"
-      :pagination="pagination"
-      @dialog-cancel="handleDialogCancel"
-       @pagination-current-change="paginationCurrentChange" >
-      <el-button slot="header" style="margin-bottom: 5px" @click="addRow">新增</el-button>
+    <template slot="header">演示页面</template>
+    <el-input v-model="input"
+              placeholder="请输入姓名"
+              style="width:200px;"
+              prefix-icon="el-icon-search"
+              clearable></el-input>&nbsp;
+    <el-button type="primary"
+               icon="el-icon-search"
+               @click="search">搜索</el-button>
+    <br /><br />
+    <d2-crud ref="d2Crud"
+             :columns="columns"
+             :data="data"
+             add-title="资产管理"
+             :add-template="addTemplate"
+             :form-options="formOptions"
+             :add-rules="addRules"
+             :edit-rules="addRules"
+             :edit-template="editTemplate"
+             :rowHandle="rowHandle"
+             @row-add="handleRowAdd"
+             @row-edit="handleRowEdit"
+             @row-remove="handleRowRemove"
+             :pagination="pagination"
+             @dialog-cancel="handleDialogCancel"
+             @el-icon-more="handleInfo"
+             @pagination-current-change="paginationCurrentChange">
+      <el-button slot="header"
+                 style="margin-bottom: 5px"
+                 @click="addRow">新增</el-button>
     </d2-crud>
   </d2-container>
 </template>
 
 <script>
 
-import { TestGetList, TestCreate, TestUpdate, TestDelete } from '@api/sys.login'
+import { TestGetList, TestCreate, TestUpdate, TestDelete, TestGetInfo } from '@api/sys.login'
 export default {
   data () {
     return {
@@ -74,14 +82,15 @@ export default {
         total: 0
       },
       addRules: {
-        date: [ { required: true, message: '请输入日期', trigger: 'blur' } ],
-        name: [ { required: true, message: '请输入姓名', trigger: 'blur' } ],
-        address: [ { required: true, message: '请输入地址', trigger: 'blur' } ]
+        date: [{ required: true, message: '请输入日期', trigger: 'blur' }],
+        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        address: [{ required: true, message: '请输入地址', trigger: 'blur' }]
       },
       rowHandle: {
         columnHeader: '编辑表格',
         edit: {
           icon: 'el-icon-edit',
+          type: 'primary',
           text: '编辑',
           size: 'small',
           show (index, row) {
@@ -91,6 +100,15 @@ export default {
             return false
           }
         },
+        custom: [
+          {
+            text: '详情',
+            type: 'info',
+            size: 'small',
+            fixed: 'right',
+            emit: 'el-icon-more'
+          }
+        ],
         remove: {
           icon: 'el-icon-delete',
           size: 'small',
@@ -138,6 +156,15 @@ export default {
     this.test_get_list()
   },
   methods: {
+    handleInfo ({ index, row }) {
+      TestGetInfo(row.id).then(res => {
+        this.$alert(`${res.date} ${res.address}`, `${res.name}`, {
+          confirmButtonText: '确定'
+        }).catch(err => {
+          console.log(`获取信息错误 ${err}`)
+        })
+      })
+    },
     test_get_list (parameter) {
       TestGetList(parameter).then(res => {
         console.log(res)
@@ -147,7 +174,6 @@ export default {
         console.log(`获取信息错误 ${err}`)
       })
     },
-
     paginationCurrentChange (currentPage) {
       TestGetList(`page=${currentPage}`).then(res => {
         console.log(res)
@@ -157,7 +183,7 @@ export default {
         console.log(`获取信息错误 ${err}`)
       })
       this.pagination.currentPage = currentPage
-      this.fetchData()
+      // this.fetchData()
     },
     addRow () {
       this.$refs.d2Crud.showDialog({

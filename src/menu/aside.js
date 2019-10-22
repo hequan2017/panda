@@ -2,8 +2,8 @@
 export default [
   { path: '/index', title: '首页', icon: 'home' },
   {
-    title: '资产',
+    title: '演示页面',
     icon: 'folder-o',
-    children: [{ path: '/asset', title: '资产管理' }]
+    children: [{ path: '/asset', title: '演示页面' }]
   }
 ]
