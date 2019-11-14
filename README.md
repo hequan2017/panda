@@ -13,3 +13,6 @@
 
 > npm run dev
 
+## 后端地址
+
+> https://github.com/hequan2017/pandaAdmin
