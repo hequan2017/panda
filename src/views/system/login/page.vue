@@ -15,7 +15,7 @@
            flex="dir:top main:justify cross:stretch box:justify">
         <div class="page-login--content-header">
           <p class="page-login--content-header-motto">
-            时间是一切财富中最宝贵的财富
+            时间是一切财富中最宝贵的财�?
           </p>
         </div>
         <div class="page-login--content-main"
@@ -34,7 +34,7 @@
                 <el-form-item prop="username">
                   <el-input type="text"
                             v-model="formLogin.username"
-                            placeholder="用户名">
+                            placeholder="用户�?>
                     <i slot="prepend"
                        class="fa fa-user-circle-o"></i>
                   </el-input>
@@ -50,7 +50,7 @@
                 <el-form-item prop="code">
                   <el-input type="text"
                             v-model="formLogin.code"
-                            placeholder="验证码">
+                            placeholder="验证�?>
                     <template slot="append">
                       <img class="login-code"
                            src="./image/login-code.png">
@@ -92,7 +92,7 @@
           <p class="page-login--content-footer-copyright">
             Copyright
             <d2-icon name="copyright" />
-            2018 D2 Projects 开源组织出品
+            2018 D2 Projects 开源组织出�?
             <a href="https://github.com/FairyEver">
               @FairyEver
             </a>
@@ -138,7 +138,7 @@ export default {
         {
           name: 'Admin',
           username: 'admin',
-          password: '1qaz.2wsx'
+          password: 'REDACTED_PASSWORD'
         },
         {
           name: 'Editor',
@@ -154,7 +154,7 @@ export default {
       // 表单
       formLogin: {
         username: 'admin',
-        password: '1qaz.2wsx',
+        password: 'REDACTED_PASSWORD',
         code: 'v9am'
       },
       // 表单校验
@@ -169,7 +169,7 @@ export default {
         password: [
           {
             required: true,
-            message: '请输入密码',
+            message: '请输入密�?,
             trigger: 'blur'
           }
         ],
@@ -215,19 +215,19 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // 登录
-          // 注意 这里的演示没有传验证码
-          // 具体需要传递的数据请自行修改代码
+          // 注意 这里的演示没有传验证�?
+          // 具体需要传递的数据请自行修改代�?
           this.login({
             username: this.formLogin.username,
             password: this.formLogin.password
           })
             .then(() => {
-              // 重定向对象不存在则返回顶层路径
+              // 重定向对象不存在则返回顶层路�?
               this.$router.replace(this.$route.query.redirect || '/')
             })
         } else {
           // 登录表单校验失败
-          this.$message.error('表单校验失败，请检查')
+          this.$message.error('表单校验失败，请检�?)
         }
       })
     }
@@ -243,7 +243,7 @@ export default {
   background-color: $backgroundColor;
   height: 100%;
   position: relative;
-  // 层
+  // �?
   .page-login--layer {
     @extend %full;
     overflow: auto;
@@ -258,7 +258,7 @@ export default {
     color: rgba(0, 0, 0, 0.03);
     overflow: hidden;
   }
-  // 登陆页面控件的容器
+  // 登陆页面控件的容�?
   .page-login--content {
     height: 100%;
     min-height: 500px;
